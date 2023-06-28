@@ -8,6 +8,7 @@ export const studentLeave = async (req, res) => {
     reason: reason,
     acceptance: approval,
   };
+  console.log(newObj)
   console.log(approval)
   const newLeave = new Leave(newObj);
   await newLeave.save();

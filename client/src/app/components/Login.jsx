@@ -16,15 +16,28 @@ import { useState, useEffect } from "react";
 import { studentLoginData } from "../services/login.js";
 import { useRouter } from "next/navigation";
 
+// get the userData if null then set an empty object
+const defaultUserData = JSON.parse(localStorage.getItem("userData")) || {};
 export default function Login() {
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState(defaultUserData);
   const [facultylogin, setFacultyLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    if (userData.role === "student" && loggedIn) {
+      router.push("/pages/student");
+    } else if (userData.role === "faculty"&& loggedIn) {
+      router.push("/pages/faculty");
+    }
 
-  useEffect(()=>{
-    localStorage.setItem("loggenIn",JSON.stringify(loggedIn))
-  },[loggedIn])
+      router.push("/");
+  }, [loggedIn, userData]);
+  
+  useEffect(() => {
+    localStorage.setItem("loggenIn", JSON.stringify(loggedIn));
+  }, [loggedIn]);
+  
+
   const facultyLogin = () => {
     setFacultyLogin(true);
   };
@@ -32,7 +45,7 @@ export default function Login() {
   const studentLogin = () => {
     setFacultyLogin(false);
   };
-
+  console.log(userData);
   return (
     <Flex
       align="center"
@@ -52,19 +65,10 @@ export default function Login() {
           }}
           onSubmit={async (values, { resetForm }) => {
             let data = await studentLoginData(values);
-            console.log(data.studentData[0].role)
-            localStorage.setItem("userData", JSON.stringify(data));
+            console.log(data[0].role);
+            localStorage.setItem("userData", JSON.stringify(data[0]));
+            setUserData(data[0])
             setLoggedIn(true);
-            if (data.studentData[0].role === "student") {
-              router.push("pages/student");
-            }
-            else if(data.studentData[0].role==="faculty"){
-              router.push("pages/faculty")
-            }
-            else{
-              router.push("/")
-            }
-            setUserData(data.studentData[0]);
             resetForm();
           }}
         >

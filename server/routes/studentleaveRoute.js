@@ -5,6 +5,6 @@ const app = express()
 app.use(express.json())
 
 const router =  express.Router()
-
-router.post("/leave",verifyStudent,studentLeave)
+// ,verifyStudent
+router.post("/leave",studentLeave)
 export default router
