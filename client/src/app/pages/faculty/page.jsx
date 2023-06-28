@@ -1,4 +1,3 @@
-"use client"
 import FacultyComponent from "@/app/components/faculty";
 
 const Faculty = () => {

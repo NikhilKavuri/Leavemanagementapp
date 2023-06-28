@@ -12,7 +12,7 @@ import styled from "../styled/faculty.module.css";
 const FacultyComponent = () => {
   const [studentsLeave, setStudentsLeave] = useState([]);
 
-  const facultyData = JSON.parse(localStorage.getItem("userData"));
+  // const facultyData = JSON.parse(localStorage.getItem("userData"));
 
   return (
     <div>
@@ -23,7 +23,7 @@ const FacultyComponent = () => {
         gap={50}
         h="100vh"
       >
-        <Heading>Welcome {facultyData.facultyId}</Heading>
+        <Heading>Welcome </Heading>
         <Accordion className={styled.accordian} bg={"green.300"} allowToggle>
           <AccordionItem>
             <h2>
