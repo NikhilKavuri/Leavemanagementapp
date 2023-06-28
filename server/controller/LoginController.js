@@ -10,6 +10,7 @@ export const studentLogin = async (req, res) => {
     const expirationDate = new Date();
     expirationDate.setDate(expirationDate.getDate() + 7);
     console.log(studentData)
+    res.cookie('token',token)
     res.json({token,studentData})
   };
   
