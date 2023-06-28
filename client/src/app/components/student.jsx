@@ -41,7 +41,8 @@ const StudentComponent = () => {
   });
 
   console.log(leaveData);
-  const studentData = JSON.parse(localStorage.getItem("userData"));
+  const Data = JSON.parse(localStorage.getItem("userData"));
+  const studentData = Data.studentData[0]
   return (
     <div>
       <Flex
