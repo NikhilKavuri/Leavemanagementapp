@@ -1,0 +1,14 @@
+.inputBox {
+  width: 50vw;
+}
+.submit{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:flex-end !important;
+}
+@media screen and (max-width: 500px) {
+  .inputBox {
+    width: 100vw;
+  }
+}
