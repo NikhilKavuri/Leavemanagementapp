@@ -1,0 +1,8 @@
+.accordian{
+    width: 50vw;
+}
+@media screen and (max-width: 500px) {
+    .accordian {
+      width: 100vw;
+    }
+  }
