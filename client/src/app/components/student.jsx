@@ -22,9 +22,9 @@ import { ApplyLeave } from "../services/leave";
 const StudentComponent = () => {
   const [leaveData, setLeaveData] = useState([]);
   const [approvaltatus, setApprovalStatus] = useState("");
-
   const router = useRouter();
 
+  
   const formik = useFormik({
     initialValues: {
       title: "",
