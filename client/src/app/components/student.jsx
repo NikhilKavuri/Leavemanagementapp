@@ -20,7 +20,6 @@ import { useRouter } from "next/navigation";
 import { ApplyLeave } from "../services/leave";
 
 const StudentComponent = () => {
- // create a state variable for storing the user data
   const [user, setUser] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [approvaltatus, setApprovalStatus] = useState("");
