@@ -21,13 +21,14 @@ export default function Login() {
   const [facultylogin, setFacultyLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
+  
   useEffect(() => {
     const defaultUserData = JSON.parse(localStorage.getItem("userData"));
     setUserData(defaultUserData);
     const handleRouting = () => {
-      if (defaultUserData.role === "student" && loggedIn) {
+      if (defaultUserData?.role === "student" && loggedIn) {
         router.push("/pages/student");
-      } else if (defaultUserData.role === "faculty" && loggedIn) {
+      } else if (defaultUserData?.role === "faculty" && loggedIn) {
         router.push("/pages/faculty");
       } else {
         router.push("/");
