@@ -16,27 +16,30 @@ import { useState, useEffect } from "react";
 import { studentLoginData } from "../services/login.js";
 import { useRouter } from "next/navigation";
 
-// get the userData if null then set an empty object
-const defaultUserData = JSON.parse(localStorage.getItem("userData")) || {};
 export default function Login() {
-  const [userData, setUserData] = useState(defaultUserData);
+  const [userData, setUserData] = useState({});
   const [facultylogin, setFacultyLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
   useEffect(() => {
-    if (userData.role === "student" && loggedIn) {
-      router.push("/pages/student");
-    } else if (userData.role === "faculty"&& loggedIn) {
-      router.push("/pages/faculty");
-    }
+    const defaultUserData = JSON.parse(localStorage.getItem("userData"));
+    setUserData(defaultUserData);
+    const handleRouting = () => {
+      if (defaultUserData.role === "student" && loggedIn) {
+        router.push("/pages/student");
+      } else if (defaultUserData.role === "faculty" && loggedIn) {
+        router.push("/pages/faculty");
+      } else {
+        router.push("/");
+      }
+    };
 
-      router.push("/");
-  }, [loggedIn, userData]);
-  
-  useEffect(() => {
-    localStorage.setItem("loggenIn", JSON.stringify(loggedIn));
+    handleRouting();
   }, [loggedIn]);
-  
+
+  useEffect(() => {
+    localStorage.setItem("loggedIn", JSON.stringify(loggedIn));
+  }, [loggedIn]);
 
   const facultyLogin = () => {
     setFacultyLogin(true);
@@ -67,7 +70,7 @@ export default function Login() {
             let data = await studentLoginData(values);
             console.log(data[0].role);
             localStorage.setItem("userData", JSON.stringify(data[0]));
-            setUserData(data[0])
+            setUserData(data[0]);
             setLoggedIn(true);
             resetForm();
           }}

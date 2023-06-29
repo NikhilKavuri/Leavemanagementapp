@@ -19,20 +19,23 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ApplyLeave } from "../services/leave";
 
-// create a default user in the localstorage whose value is empty
-let defaultUser = JSON.parse(localStorage.getItem("userData")) || [];
 const StudentComponent = () => {
-  const router = useRouter();
-  // const loggedIn = JSON.parse(localStorage.getItem("loggenIn"));
-  // console.log(loggedIn)
-  // if (!loggedIn) {
-  //   router.push("/");
-  // }
-  // create a state variable for storing the user data
-  const [user, setUser] = useState(defaultUser);
+ // create a state variable for storing the user data
+  const [user, setUser] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [approvaltatus, setApprovalStatus] = useState("");
+  const router = useRouter();
 
+  useEffect(() => {
+    (async () => {
+      const loggedIn =  await JSON.parse(localStorage.getItem("loggedIn"));
+      const userValue = await JSON.parse(localStorage.getItem("userData"));
+      setUser(userValue)
+      if (!loggedIn) {
+        router.push("/");
+      }
+    })();
+  }, []);
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -58,7 +61,7 @@ const StudentComponent = () => {
         gap={50}
         h="100vh"
       >
-        <Heading>Welcome {user.id}</Heading>
+        <Heading>Welcome {user?.id}</Heading>
         <Heading size={"md"}>Please provide the Leave Information</Heading>
         <Box className={style.inputBox} bg="#E3F4F4" p={4} rounded="md">
           <form onSubmit={formik.handleSubmit}>
