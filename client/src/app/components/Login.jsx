@@ -68,7 +68,6 @@ export default function Login() {
           }}
           onSubmit={async (values, { resetForm }) => {
             let data = await studentLoginData(values);
-            console.log(data[0].role);
             localStorage.setItem("userData", JSON.stringify(data[0]));
             setUserData(data[0]);
             setLoggedIn(true);
