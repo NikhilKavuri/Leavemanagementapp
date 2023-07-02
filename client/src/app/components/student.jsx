@@ -20,29 +20,37 @@ import { useRouter } from "next/navigation";
 import { ApplyLeave } from "../services/leave";
 
 const StudentComponent = () => {
+  const [user, setUser] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [approvaltatus, setApprovalStatus] = useState("");
-
   const router = useRouter();
 
+  useEffect(() => {
+    (async () => {
+      const loggedIn =  await JSON.parse(localStorage.getItem("loggedIn"));
+      const userValue = await JSON.parse(localStorage.getItem("userData"));
+      setUser(userValue)
+      if (!loggedIn) {
+        router.push("/");
+      }
+    })();
+  }, []);
   const formik = useFormik({
     initialValues: {
       title: "",
       reason: "",
     },
     onSubmit: async (values, { resetForm }) => {
-      values.id = studentData.id
-      values.approval = "pending"
-      let data = await ApplyLeave(values)
+      values.id = user.id;
+      values.approval = "pending";
+      let data = await ApplyLeave(values);
       console.log(data)
+      setApprovalStatus(data.Status)
       setLeaveData(values);
       resetForm();
     },
   });
 
-  console.log(leaveData);
-  const Data = JSON.parse(localStorage.getItem("userData"));
-  const studentData = Data.studentData[0]
   return (
     <div>
       <Flex
@@ -52,7 +60,7 @@ const StudentComponent = () => {
         gap={50}
         h="100vh"
       >
-        <Heading>Welcome {studentData.id}</Heading>
+        <Heading>Welcome {user?.id}</Heading>
         <Heading size={"md"}>Please provide the Leave Information</Heading>
         <Box className={style.inputBox} bg="#E3F4F4" p={4} rounded="md">
           <form onSubmit={formik.handleSubmit}>
