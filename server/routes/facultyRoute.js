@@ -5,5 +5,5 @@ const app= express()
 app.use(express.json())
 
 const router = express.Router()
-router.get("/data",facultyCheck,studentLeaves)
+router.get("/data",studentLeaves)
 export default router;

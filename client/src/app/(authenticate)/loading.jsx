@@ -1,4 +1,4 @@
-"use client";
+  "use client";
 import { Spinner, Center} from "@chakra-ui/react";
 const Loading = () => {
   return (

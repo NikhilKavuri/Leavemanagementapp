@@ -20,6 +20,7 @@ export default function Login() {
   const [userData, setUserData] = useState({});
   const [facultylogin, setFacultyLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [role, setRole] = useState("");
   const router = useRouter();
   
   useEffect(() => {
@@ -27,9 +28,9 @@ export default function Login() {
     setUserData(defaultUserData);
     const handleRouting = () => {
       if (defaultUserData?.role === "student" && loggedIn) {
-        router.push("/pages/student");
+        router.push("/student");
       } else if (defaultUserData?.role === "faculty" && loggedIn) {
-        router.push("/pages/faculty");
+        router.push("/faculty");
       } else {
         router.push("/");
       }
@@ -41,7 +42,11 @@ export default function Login() {
   useEffect(() => {
     localStorage.setItem("loggedIn", JSON.stringify(loggedIn));
   }, [loggedIn]);
-
+ 
+  console.log(role)
+  useEffect(() => {
+    setRole(facultylogin ? "faculty" : "student");
+  }, [facultylogin]);
   const facultyLogin = () => {
     setFacultyLogin(true);
   };
@@ -49,7 +54,7 @@ export default function Login() {
   const studentLogin = () => {
     setFacultyLogin(false);
   };
-  console.log(userData);
+
   return (
     <Flex
       align="center"
@@ -68,6 +73,12 @@ export default function Login() {
             role: facultylogin ? "faculty" : "student",
           }}
           onSubmit={async (values, { resetForm }) => {
+            if (facultylogin) {
+              values.role = "faculty"; // Update the role value
+            } else {
+              values.role = "student"; // Update the role value
+            }
+            console.log(values);
             let data = await studentLoginData(values);
             localStorage.setItem("userData", JSON.stringify(data[0]));
             setUserData(data[0]);
